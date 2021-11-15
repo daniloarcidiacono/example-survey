@@ -1,32 +1,70 @@
+<style lang="scss">
+  .App {
+    &__Toolbar {
+      cursor: pointer;
+    }
+  }
+</style>
+
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view/>
-  </div>
+  <v-app id="inspire">
+    <v-app-bar app>
+      <v-container class="py-0 fill-height">
+        <v-btn v-for="link in links"
+               :key="link.text"
+               text
+               @click="go(link.path)">
+          <v-icon left v-if="!!link.icon">{{ link.icon }}</v-icon>
+          {{ link.text }}
+        </v-btn>
+      </v-container>
+    </v-app-bar>
+
+    <v-main>
+      <Alerts />
+      <router-view />
+    </v-main>
+  </v-app>
 </template>
 
-<style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
+<script lang="ts">
+import Vue from 'vue';
+import {Component} from 'vue-property-decorator';
+import Alerts from '@/components/Alerts.vue';
 
-#nav {
-  padding: 30px;
+@Component({
+    components: {
+        Alerts
+    }
+})
+export default class App extends Vue {
+  public links: any[] = [
+    {
+      text: "Surveys",
+      path: "/",
+      icon: "mdi-file"
+    },
+    {
+      text: "Settings",
+      path: "/settings",
+      icon: "mdi-cog"
+    },
+    {
+      text: "Tips",
+      path: "/tips",
+      icon: "mdi-lightbulb"
+    }
+  ];
 
-  a {
-    font-weight: bold;
-    color: #2c3e50;
+  public goHome() {
+    this.go('/');
+  }
 
-    &.router-link-exact-active {
-      color: #42b983;
+  public go(path: string) {
+    if (this.$route.path !== path) {
+      this.$router.push(path);
     }
   }
 }
-</style>
+
+</script>

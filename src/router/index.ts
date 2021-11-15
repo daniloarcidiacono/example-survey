@@ -1,23 +1,50 @@
 import Vue from 'vue';
 import VueRouter, { RouteConfig } from 'vue-router';
-import Home from '../views/Home.vue';
+import Surveys from '../views/Surveys.vue';
+import PageNotFound from '@/views/PageNotFound.vue';
+import Settings from '@/views/Settings.vue';
+import Takes from '@/views/Takes.vue';
+import TakeStep from '@/views/TakeStep.vue';
+import TakeResult from '@/views/TakeResult.vue';
+import Tips from '@/views/Tips.vue';
 
 Vue.use(VueRouter);
 
 const routes: RouteConfig[] = [
   {
     path: '/',
-    name: 'Home',
-    component: Home,
+    name: 'Surveys',
+    component: Surveys,
   },
   {
-    path: '/about',
-    name: 'About',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue'),
+    path: '/survey/:surveyId/takes',
+    name: 'Takes',
+    component: Takes,
   },
+  {
+    path: '/take/:takeId/step/:step',
+    name: 'TakeStep',
+    component: TakeStep,
+  },
+  {
+    path: '/take/:takeId/result',
+    name: 'TakeResult',
+    component: TakeResult,
+  },
+  {
+    path: '/settings',
+    name: 'settings',
+    component: Settings
+  },
+  {
+    path: '/tips',
+    name: 'Tips',
+    component: Tips,
+  },
+  {
+    path: "*",
+    component: PageNotFound
+  }
 ];
 
 const router = new VueRouter({
